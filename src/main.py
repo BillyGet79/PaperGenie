@@ -4,6 +4,8 @@ from sys import prefix
 from fastapi import FastAPI, applications, Request
 from starlette.responses import JSONResponse
 
+from infrastructure.database.database import create_db_and_tables
+from infrastructure.model import test_model
 from infrastructure.error.custom_error import CustomException
 from infrastructure.utils.log_utils import logger
 from interface.schemas.base_response import BaseResponse
@@ -13,6 +15,7 @@ from interface.routers.hello_router import router as hello_router
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Initialize resources here if needed
+    create_db_and_tables()
     yield
     # Cleanup resources here if needed
 

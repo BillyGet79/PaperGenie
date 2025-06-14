@@ -9,14 +9,8 @@ from infrastructure.utils.local_path_utils import get_root_path
 class DatabaseConfig(BaseModel):
     url: str
 
-
-class AppConfig(BaseModel):
-    port: int
-
 class Config(BaseModel):
     database: DatabaseConfig
-    app: AppConfig
-
 
 def load_config():
     root_path = get_root_path()
