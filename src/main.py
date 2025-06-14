@@ -7,6 +7,7 @@ from starlette.responses import JSONResponse
 from infrastructure.error.custom_error import CustomException
 from infrastructure.utils.log_utils import logger
 from interface.schemas.base_response import BaseResponse
+from interface.routers.hello_router import router as hello_router
 
 
 @asynccontextmanager
@@ -24,6 +25,8 @@ app = FastAPI(
 )
 
 prefix = "/api/paper-genie-open/v1"
+
+app.include_router(hello_router, prefix=prefix, tags=["hello"])
 
 
 @app.exception_handler(CustomException)
