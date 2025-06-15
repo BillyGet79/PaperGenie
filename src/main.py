@@ -4,12 +4,13 @@ from sys import prefix
 from fastapi import FastAPI, applications, Request
 from starlette.responses import JSONResponse
 
-from infrastructure.database.database import create_db_and_tables
+from infrastructure.db.database import create_db_and_tables
 from infrastructure.model import test_model
 from infrastructure.error.custom_error import CustomException
 from infrastructure.utils.log_utils import logger
 from interface.schemas.base_response import BaseResponse
 from interface.routers.hello_router import router as hello_router
+from interface.routers.repository_test_router import router as repository_test_router
 
 
 @asynccontextmanager
@@ -30,6 +31,7 @@ app = FastAPI(
 prefix = "/api/paper-genie-open/v1"
 
 app.include_router(hello_router, prefix=prefix, tags=["hello"])
+app.include_router(repository_test_router, prefix=prefix, tags=["repository_test"])
 
 
 @app.exception_handler(CustomException)

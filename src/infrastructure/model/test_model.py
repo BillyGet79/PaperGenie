@@ -2,7 +2,7 @@ import sqlalchemy
 from sqlalchemy import Column
 from sqlmodel import Field
 
-from infrastructure.database.base_model import IdModel
+from infrastructure.db.base_model import IdModel
 
 
 class TestModel(IdModel, table=True):

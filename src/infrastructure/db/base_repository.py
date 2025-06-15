@@ -4,8 +4,8 @@ from typing import Any, Generic, Type, List, Optional
 
 from sqlmodel import Session, select, func, delete
 
-from infrastructure.database.base_model import T
-from infrastructure.database.page import PageData
+from infrastructure.db.base_model import T
+from infrastructure.db.page import PageData
 from infrastructure.error.bad_request_error import BadRequestError
 
 

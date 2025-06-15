@@ -1,8 +1,12 @@
+import sys
+print(sys.path)
+
 import pytest
+
 from sqlmodel import SQLModel
 from starlette.testclient import TestClient
 
-from infrastructure.database.database import get_engine, get_session
+from infrastructure.db.database import get_engine, get_session
 from main import app
 
 engine = get_engine()
