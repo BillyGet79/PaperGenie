@@ -1,11 +1,12 @@
 from contextlib import asynccontextmanager
-from sys import prefix
 
-from fastapi import FastAPI, applications, Request
+from fastapi import FastAPI, Request
 from starlette.responses import JSONResponse
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
 
 from infrastructure.db.database import create_db_and_tables
-from infrastructure.model import test_model
 from infrastructure.error.custom_error import CustomException
 from infrastructure.utils.log_utils import logger
 from interface.schemas.base_response import BaseResponse
