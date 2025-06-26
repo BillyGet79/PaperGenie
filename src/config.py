@@ -9,8 +9,15 @@ from infrastructure.utils.local_path_utils import get_root_path, get_resources_p
 class DatabaseConfig(BaseModel):
     url: str
 
+
+class MilvusConfig(BaseModel):
+    host: str
+    port: str
+
+
 class Config(BaseModel):
     database: DatabaseConfig
+    milvus: MilvusConfig
 
 def load_config():
     resources_path = get_resources_path()

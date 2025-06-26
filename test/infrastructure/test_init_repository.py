@@ -1,10 +1,11 @@
 from infrastructure.db.database import get_session, create_session
-from infrastructure.model.test_model import TestModel
-from infrastructure.repository.test_repository import TestRepository
+from infrastructure.model.init_model import InitModel
+from infrastructure.repository.init_repository import InitRepository
 from infrastructure.utils.log_utils import logger
+import unittest
 
 
-class TestTestRepository:
+class TestInitRepository(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -15,8 +16,8 @@ class TestTestRepository:
         cls.session.close()
 
     def test_get_by_id(self):
-        repository = TestRepository(self.session)
-        test_model = TestModel(name="Test Name", description="Test Description")
+        repository = InitRepository(TestInitRepository.session)  # 使用类级别的 session
+        test_model = InitModel(name="Test Name", description="Test Description")
         repository.create(test_model)
         logger.info(f"Creating test model: {test_model}")
 

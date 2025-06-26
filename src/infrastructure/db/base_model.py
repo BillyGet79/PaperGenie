@@ -4,7 +4,7 @@ from sqlmodel import SQLModel, Field
 
 
 class IdModel(SQLModel):
-    __table_args__ = {"schema": "papergeniedb"}
+    __table_args__ = {"schema": "papergenie"}
     id: Optional[int] = Field(default=None, primary_key=True)
 
     def __str__(self):
