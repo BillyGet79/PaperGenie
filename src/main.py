@@ -4,6 +4,8 @@ from fastapi import FastAPI, Request
 from starlette.responses import JSONResponse
 from dotenv import load_dotenv, find_dotenv
 
+from infrastructure.milvus.milvus_utils import create_milvus_connection
+
 load_dotenv(find_dotenv())
 
 from infrastructure.db.database import create_db_and_tables
@@ -17,6 +19,7 @@ from interface.routers.hello_router import router as hello_router
 async def lifespan(app: FastAPI):
     # Initialize resources here if needed
     create_db_and_tables()
+    create_milvus_connection()
     yield
     # Cleanup resources here if needed
 

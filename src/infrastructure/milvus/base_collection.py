@@ -1,14 +1,12 @@
 from abc import ABC, abstractmethod
 
 from pydantic.v1 import BaseModel
-from pymilvus import FieldSchema, CollectionSchema, Collection
-
-from config import get_config
-from infrastructure.milvus.milvus_utils import MilvusUtils
+from pymilvus import FieldSchema
 
 
 class BaseCollection(ABC, BaseModel):
     id: int
+    vector: list[float]
 
     @classmethod
     @abstractmethod

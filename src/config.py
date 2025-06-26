@@ -11,8 +11,8 @@ class DatabaseConfig(BaseModel):
 
 
 class MilvusConfig(BaseModel):
-    host: str
-    port: str
+    uri: str
+    token: str
 
 
 class Config(BaseModel):

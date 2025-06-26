@@ -1,6 +1,5 @@
 from dotenv import load_dotenv, find_dotenv
-from openai.types.chat import ChatCompletionMessageParam, ChatCompletionUserMessageParam, \
-    ChatCompletionSystemMessageParam
+from openai.types.chat import ChatCompletionMessageParam
 
 from infrastructure.openai_client.openai_client import OpenAIClient
 
@@ -15,23 +14,15 @@ def to_message(role: str, content: str) -> ChatCompletionMessageParam:
 
 class TestOpenAIClient:
 
-    def test_get_client_chat(self):
+    def test_get_openai_client(self):
         client = OpenAIClient.get_client()
+        messages: list[ChatCompletionMessageParam] = [
+            to_message("system", "You are a helpful assistant."),
+            to_message("user", "对于你来说，我是说中文你处理的比较好，还是我说英文你处理的比较好？")
+        ]
         response = client.chat.completions.create(
             model="qwen-plus",
-            messages=[
-                to_message("system", "You are a helpful assistant."),
-                to_message("user", "What is the meaning of life?")
-            ]
+            messages=messages
         )
         response_content = response.choices[0].message.content
         print(response_content)
-
-    def test_get_client_embedding(self):
-        client = OpenAIClient.get_client()
-        response = client.embeddings.create(
-            model="text-embedding-v4",
-            input="What is the meaning of life?"
-        )
-        response_embedding = response.data[0].embedding
-        print(response_embedding)
