@@ -1,3 +1,5 @@
+import unittest
+
 from dotenv import load_dotenv, find_dotenv
 from openai.types.chat import ChatCompletionMessageParam
 
@@ -12,7 +14,7 @@ def to_message(role: str, content: str) -> ChatCompletionMessageParam:
     return {"role": role, "content": content}
 
 
-class TestOpenAIClient:
+class TestOpenAIClient(unittest.TestCase):
 
     def test_get_openai_client(self):
         client = OpenAIClient.get_client()

@@ -2,17 +2,16 @@ from pymilvus import MilvusClient
 
 from config import get_config
 
-_milvus_connection = None
 
+class MilvusUtils:
+    _milvus_connection = None
 
-def create_milvus_connection():
-    uri = get_config().milvus.uri
-    token = get_config().milvus.token
-    _milvus_connection = MilvusClient(uri=uri, token=token)
-    if "papergeniedb" not in _milvus_connection.list_databases():
-        _milvus_connection.create_database(db_name="papergeniedb")
-    _milvus_connection.use_database(db_name="papergeniedb")
-
-
-def get_milvus_connection() -> MilvusClient:
-    return _milvus_connection
+    @classmethod
+    def get_milvus_connection(cls):
+        uri = get_config().milvus.uri
+        token = get_config().milvus.token
+        cls._milvus_connection = MilvusClient(uri=uri, token=token)
+        if "papergeniedb" not in cls._milvus_connection.list_databases():
+            cls._milvus_connection.create_database(db_name="papergeniedb")
+        cls._milvus_connection.use_database(db_name="papergeniedb")
+        return cls._milvus_connection

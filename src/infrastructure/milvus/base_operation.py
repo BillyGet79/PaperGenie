@@ -12,8 +12,14 @@ class BaseMilvusOperation(ABC):
     def model_class(self) -> Type[BaseCollection]:
         pass
 
+    @property
+    @abstractmethod
+    def metric_type(self) -> str:
+        pass
+
     def __init__(self, milvus_client: MilvusClient):
         self.client = milvus_client
+        self.add_collection()
 
     def add_collection(self):
         client = self.client
@@ -38,7 +44,7 @@ class BaseMilvusOperation(ABC):
         client = self.client
         client.delete(collection_name=self.model_class.collection_name(), ids=ids)
 
-    def delete_by_filters(self, filters: str):
+    def delete_by_filters(self, filters: Optional[str] = None):
         client = self.client
         client.delete(collection_name=self.model_class.collection_name(), filter=filters)
 
@@ -47,7 +53,7 @@ class BaseMilvusOperation(ABC):
         raw_data = client.get(collection_name=self.model_class.collection_name(), ids=ids)
         return [self.model_class(**item) for item in raw_data]
 
-    def get_by_filters(self, filters: str) -> list[BaseCollection]:
+    def get_by_filters(self, filters: Optional[str] = None) -> list[BaseCollection]:
         client = self.client
         raw_data = client.query(collection_name=self.model_class.collection_name(), filter=filters)
         return [self.model_class(**item) for item in raw_data]
@@ -55,3 +61,17 @@ class BaseMilvusOperation(ABC):
     def distinct(self, field_name: str):
         client = self.client
         return client.query(collection_name=self.model_class.collection_name(), output_fields=[field_name])
+
+    def ann_search(self, query_vector: list[float], top_k: int = 10, output_fields: Optional[list[str]] = None):
+        client = self.client
+        raw_data = client.search(
+            collection_name=self.model_class.collection_name(),
+            anns_field="vector",
+            data=[query_vector],
+            limit=top_k,
+            search_params={
+                "metric_type": self.metric_type,
+            },
+            output_fields=output_fields
+        )
+        return [self.model_class(**item) for item in raw_data[0]]

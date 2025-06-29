@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
+from typing import Optional
 
 from pydantic.v1 import BaseModel
 from pymilvus import FieldSchema
 
 
 class BaseCollection(ABC, BaseModel):
-    id: int
+    id: Optional[int] = None
     vector: list[float]
 
     @classmethod
